@@ -1,0 +1,26 @@
+{
+  "name": "parallel_limit",
+  "version": "1.0.0",
+  "description": "Execute tasks as needed and start enqueuing when a limit of parallel executions is reached",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vdiez/parallel_limit.git"
+  },
+  "keywords": [
+    "parallel",
+    "queue"
+  ],
+  "author": "Victor Diez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vdiez/parallel_limit/issues"
+  },
+  "homepage": "https://github.com/vdiez/parallel_limit#readme",
+  "dependencies": {
+    "winston": "^2.4.0"
+  }
+}
