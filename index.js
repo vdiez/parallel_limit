@@ -27,7 +27,7 @@ Queue.prototype.run = function (task) {
                                 })
                                 .then(result => {
                                     self.tasks--;
-                                    winston.debug((task.name || task) + " completed on queue " + queue + ". Pending tasks: " + self.tasks);
+                                    winston.silly((task.name || task) + " completed on queue " + queue + ". Pending tasks: " + self.tasks);
                                     resolve(result);
                                     return queue;
                                 });
