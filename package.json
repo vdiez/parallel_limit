@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/vdiez/parallel_limit#readme",
   "dependencies": {
-    "winston": "^2.4.0"
+    "winston": "^3.2.1"
   }
 }
