@@ -1,6 +1,6 @@
 {
   "name": "parallel_limit",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Execute tasks as needed and start enqueuing when a limit of parallel executions is reached",
   "main": "index.js",
   "scripts": {
