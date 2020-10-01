@@ -1,6 +1,7 @@
 function Queue(limit) {
     this.slots = new Array(limit).fill(1).map((_, idx) => Promise.resolve(idx));
     this.dispatcher = Promise.resolve();
+    this.resolve_empty = () => {};
     this.counter = 0;
 }
 
@@ -16,6 +17,7 @@ Queue.prototype = {
                             .catch(err => reject(err))
                             .then(result => {
                                 this.counter--;
+                                if (this.counter === 0) this.resolve_empty();
                                 resolve(result);
                                 return slot;
                             });
@@ -23,10 +25,17 @@ Queue.prototype = {
                     })))
         });
     },
+    done() {
+        return new Promise(resolve => {
+            if (this.counter === 0) resolve();
+            else this.resolve_empty = resolve;
+        })
+    },
     size() {
         return this.slots.length;
     },
     set_size(limit) {
+        if (limit === this.slots.length) return;
         for (let i = this.slots.length; i < limit; i++) this.slots.push(Promise.resolve(i)); //limit increased
         while (this.slots.length > limit) this.slots.pop().catch(() => {});                  //limit reduced
     }
