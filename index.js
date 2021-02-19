@@ -6,21 +6,30 @@ function Queue(limit) {
 }
 
 Queue.prototype = {
-    run(task) {
+    run(task, control_release = false) {
         this.counter++;
+        let control, release_slot, release_promise;
+        if (control_release) {
+            release_promise = new Promise(resolve => release_slot = resolve);
+            control = {keep_busy: false, release_slot, release_promise}
+        }
         return new Promise((resolve, reject) => {
             this.dispatcher = this.dispatcher
                 .then(() => new Promise(resolve_dispatcher => Promise.race(this.slots)
                     .then(slot => {
                         this.slots[slot] = this.slots[slot]
-                            .then(() => task())
+                            .then(() => task(slot, control))
                             .catch(err => reject(err))
                             .then(result => {
                                 this.counter--;
                                 if (this.counter === 0) this.resolve_empty();
                                 resolve(result);
-                                return slot;
-                            });
+                                if (control_release) {
+                                    if (control.keep_busy) return release_promise;
+                                    else release_slot();
+                                }
+                            })
+                            .then(() => slot);
                         resolve_dispatcher();
                     })))
         });
